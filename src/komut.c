@@ -15,41 +15,61 @@
 #include "komut.h"
 
 void komut_calistir(char *komut, int MAX_KOMUT_UZUNLUGU) {
-    //Komuttan argüman dizisi oluşturulur
-    char *args[MAX_KOMUT_UZUNLUGU / 2 + 1]; //Maksimum argüman miktarı
+    char *args[MAX_KOMUT_UZUNLUGU / 2 + 1]; // Maksimum argüman miktarı
     int i = 0;
-    //Komut argümanlara ayrılır
-    args[i] = strtok(komut, " \t\n"); //Ilk index komutun kendisi olur (örn. ls -lha için ls olur)
+
+    // `<` sembolünü kontrol eder
+    char *input_redirect = strstr(komut, "<");
+
+    char *input_file = NULL;
+    if (input_redirect != NULL) {
+        // `<`'den sonraki kısmı giriş dosyası olarak alır
+        *input_redirect = '\0'; // `<`'i ve sonrasını ayır
+        input_redirect++;
+        input_file = strtok(input_redirect, " \t\n");
+    }
+
+    // Komut ve argümanları ayrıştırır
+    args[i] = strtok(komut, " \t\n");
     while (args[i] != NULL) {
-        args[++i] = strtok(NULL, " \t\n"); //İşlemin kaldığı yerden devam etmesi için NULL verilir
+        args[++i] = strtok(NULL, " \t\n");
     }
 
     if (args[0] == NULL) {
-        return; //Boş komut
+        return; // Boş komut
     }
 
-    //Built-in quit komutu
+    // Built-in quit komutu
     if (strcmp(args[0], "quit") == 0) exit(0);
 
-    //Komutu çalıştırması için fork() ile bir çocuk proses oluşturulur
     pid_t pid = fork();
-
     if (pid < 0) {
         perror("Fork basarisiz");
         return;
     }
 
     if (pid == 0) {
-        //pid = 0 çocuk proses olur, 
-        if (execvp(args[0], args) < 0) { //Eğer execvp negatif değer döndürürse (false) komut çalıştırılamamış demektir
+        // Çocuk proses
+        if (input_file != NULL) {
+            FILE *file = fopen(input_file, "r");
+            if (file == NULL) {
+                // Eğer dosya açılamazsa, hata mesajı yazdırılır
+                printf("%s giris dosyasi bulunamadi.\n", input_file);
+                exit(1);
+            }
+            // Standart girişi dosyaya yönlendirir
+            dup2(fileno(file), STDIN_FILENO);
+            fclose(file);
+        }
+
+        if (execvp(args[0], args) < 0) {
             perror("Komut calistirilamadi");
         }
-        exit(1); //Başarısızlık durumunda çalışır (başarı durumunda execvp çocuk prosesin yerini alacağı için exit(1) çalışmaz)
-    }
-    else {
-        //pid > 0 ise pid = çocuk prosesin proses id'si
+        exit(1);
+    } else {
+        // Ebeveyn proses
         int status;
-        waitpid(pid, &status, 0); //Çocuk prosesin bitmesi beklenilir
-        tcflush(STDIN_FILENO, TCIFLUSH); //Proses ön planda çalışırken (shell beklemede iken) input yoksayılır
+        waitpid(pid, &status, 0);
+        tcflush(STDIN_FILENO, TCIFLUSH);
     }
 }
