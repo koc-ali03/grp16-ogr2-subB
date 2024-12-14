@@ -17,7 +17,8 @@ program: derle calistir
 derle:
 	gcc -I ./include/ -o ./lib/prompt.o -c ./src/prompt.c
 	gcc -I ./include/ -o ./lib/komut.o -c ./src/komut.c
-	gcc -I ./include/ -Wall -Wextra -o ./bin/shell ./lib/prompt.o ./lib/komut.o ./src/shell.c
+	gcc -I ./include/ -o ./lib/background_process.o -c ./src/background_process.c
+	gcc -I ./include/ -Wall -Wextra -o ./bin/shell ./lib/background_process.o ./lib/prompt.o ./lib/komut.o ./src/shell.c
 
 calistir:
 	./bin/shell

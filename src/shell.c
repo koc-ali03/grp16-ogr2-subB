@@ -12,15 +12,14 @@
 * - Burak Emre SARIKOÇ
 */
 
-#include <stdio.h>
-#include <string.h>
-
 #include "prompt.h"
 #include "komut.h"
+#include "background_process.h"
 
 const int MAX_KOMUT_UZUNLUGU = 1024; // Komutun max uzunluğu
 
 int main() {
+    setup_background_process_signal_handler();
     char komut[MAX_KOMUT_UZUNLUGU];
 
     while (1) {
