@@ -18,18 +18,28 @@ void komut_calistir(char *komut, int MAX_KOMUT_UZUNLUGU) {
     char *args[MAX_KOMUT_UZUNLUGU / 2 + 1]; // Maksimum argüman miktarı
     int i = 0;
 
-    // `<` sembolünü kontrol eder
+    // `<` ve `>` sembollerini kontrol eder
     char *input_redirect = strstr(komut, "<");
+    char *output_redirect = strstr(komut, ">");
 
     char *input_file = NULL;
+    char *output_file = NULL;
+
+    // Giriş dosyasını ayır
     if (input_redirect != NULL) {
-        // `<`'den sonraki kısmı giriş dosyası olarak alır
-        *input_redirect = '\0'; // `<`'i ve sonrasını ayır
+        *input_redirect = '\0';
         input_redirect++;
         input_file = strtok(input_redirect, " \t\n");
     }
 
-    // Komut ve argümanları ayrıştırır
+    // Çıkış dosyasını ayır
+    if (output_redirect != NULL) {
+        *output_redirect = '\0';
+        output_redirect++;
+        output_file = strtok(output_redirect, " \t\n");
+    }
+
+    // Komut ve argümanları ayrıştır
     args[i] = strtok(komut, " \t\n");
     while (args[i] != NULL) {
         args[++i] = strtok(NULL, " \t\n");
@@ -50,18 +60,30 @@ void komut_calistir(char *komut, int MAX_KOMUT_UZUNLUGU) {
 
     if (pid == 0) {
         // Çocuk proses
+
+        // Giriş yönlendirme
         if (input_file != NULL) {
             FILE *file = fopen(input_file, "r");
             if (file == NULL) {
-                // Eğer dosya açılamazsa, hata mesajı yazdırılır
                 printf("%s giris dosyasi bulunamadi.\n", input_file);
                 exit(1);
             }
-            // Standart girişi dosyaya yönlendirir
             dup2(fileno(file), STDIN_FILENO);
             fclose(file);
         }
 
+        // Çıkış yönlendirme
+        if (output_file != NULL) {
+            FILE *file = fopen(output_file, "w");
+            if (file == NULL) {
+                printf("%s cikis dosyasi acilamadi.\n", output_file);
+                exit(1);
+            }
+            dup2(fileno(file), STDOUT_FILENO);
+            fclose(file);
+        }
+
+        // Komut çalıştırma
         if (execvp(args[0], args) < 0) {
             perror("Komut calistirilamadi");
         }
