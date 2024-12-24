@@ -8,7 +8,7 @@
 * - Bedirhan CAN
 * - Zeynep Dilara KURNAZ
 * - Ali KOÇ
-* - Necib TAVLAŞOĞLU
+* - Muhammed Necib TAVLAŞOĞLU
 * - Burak Emre SARIKOÇ
 */
 

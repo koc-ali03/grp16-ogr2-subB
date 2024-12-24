@@ -8,13 +8,14 @@
 * - Bedirhan CAN
 * - Zeynep Dilara KURNAZ
 * - Ali KOÇ
-* - Necib TAVLAŞOĞLU
+* - Muhammed Necib TAVLAŞOĞLU
 * - Burak Emre SARIKOÇ
 */
 
 #include "komut.h"
 #include "prompt.h"
 #include "background_process.h"
+#include "pipeline.h"
 
 void komut_calistir(char* komut, int MAX_KOMUT_UZUNLUGU) {
     char* args[MAX_KOMUT_UZUNLUGU / 2 + 1]; // Maksimum argüman miktarı
@@ -22,21 +23,27 @@ void komut_calistir(char* komut, int MAX_KOMUT_UZUNLUGU) {
     int quit_flag = 0;
     int i = 0;
 
-    // `<` ve `>` sembollerini kontrol eder
-    char* input_redirect = strstr(komut, "<");
-    char* output_redirect = strstr(komut, ">");
-
     // `&` sembolünü kontrol eder
     char* background_indicator = strstr(komut, "&");
-
-    char* input_file = NULL;
-    char* output_file = NULL;
-
-    // komutta `&` sembolü olması durumunda arka plan prosesi olduğunu gösteren değişken ayarlanır
+    // Komutta `&` sembolü olması durumunda arka plan prosesi olduğunu gösteren değişken ayarlanır
     if (background_indicator != NULL) {
         is_background_process = 1;
         *background_indicator = '\0';
     }
+
+    // Komutun bir pipe içerip içermediğini kontrol et
+    if (strchr(komut, '|') != NULL)
+    {
+        pipeline_calistir(komut,MAX_KOMUT_UZUNLUGU);
+        return;
+    }
+
+     // `<` ve `>` sembollerini kontrol eder
+    char* input_redirect = strstr(komut, "<");
+    char* output_redirect = strstr(komut, ">");
+
+    char* input_file = NULL;
+    char* output_file = NULL;
 
     // Giriş dosyasını ayır
     if (input_redirect != NULL) {
