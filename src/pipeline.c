@@ -25,9 +25,7 @@ void pipeline_calistir(char* komut, int max) {
     char* token = strtok(komut, "|");
     while (token != NULL) {
         komutlar[num_komutlar++] = token; // Ayrıştırılan komutları diziye ekle
-        token = strtok(
-            NULL,
-            "|"); // Bir sonraki '|' işaretine kadar ayrıştırmaya devam et
+        token = strtok(NULL, "|");        // Bir sonraki '|' işaretine kadar ayrıştırmaya devam et
     }
 
     // Çıkış yönlendirme `>`'yi işleyelim
@@ -61,8 +59,7 @@ void pipeline_calistir(char* komut, int max) {
 
             // Son komut için çıkış yönlendirme
             if (i == num_komutlar - 1 && output_file != NULL) {
-                int fd_out =
-                    open(output_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+                int fd_out = open(output_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
                 if (fd_out < 0) {
                     perror("Cikis dosyasi acilamadi");
                     exit(EXIT_FAILURE);
