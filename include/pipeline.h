@@ -11,8 +11,14 @@
  * - Muhammed Necib TAVLAŞOĞLU
  * - Burak Emre SARIKOÇ
  */
-#include "komut.h"
-#include "prompt.h"
-#include "background_process.h"
+
+#ifndef PIPELINE_H
+#define PIPELINE_H
+
+#include <stdio.h>
+#include <string.h>
+#include <sys/wait.h>
 
 void pipeline_calistir(char*, int);
+
+#endif

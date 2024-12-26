@@ -1,19 +1,19 @@
 /*
-* SAKARYA ÜNİVERSİTESİ 2024 GÜZ DÖNEMİ
-* İŞLETİM SİSTEMLERİ PROJE ÖDEVİ
-*
-* Grup no 16 - 2. Öğretim - B Şubesi
-*
-* Grup üyeleri:
-* - Bedirhan CAN
-* - Zeynep Dilara KURNAZ
-* - Ali KOÇ
-* - Muhammed Necib TAVLAŞOĞLU
-* - Burak Emre SARIKOÇ
-*/
+ * SAKARYA ÜNİVERSİTESİ 2024 GÜZ DÖNEMİ
+ * İŞLETİM SİSTEMLERİ PROJE ÖDEVİ
+ *
+ * Grup no 16 - 2. Öğretim - B Şubesi
+ *
+ * Grup üyeleri:
+ * - Bedirhan CAN
+ * - Zeynep Dilara KURNAZ
+ * - Ali KOÇ
+ * - Muhammed Necib TAVLAŞOĞLU
+ * - Burak Emre SARIKOÇ
+ */
 
-#include "prompt.h"
 #include "background_process.h"
+#include "prompt.h"
 
 static BackgroundProcess* background_processes = NULL;
 

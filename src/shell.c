@@ -1,20 +1,20 @@
 /*
-* SAKARYA ÜNİVERSİTESİ 2024 GÜZ DÖNEMİ
-* İŞLETİM SİSTEMLERİ PROJE ÖDEVİ
-*
-* Grup no 16 - 2. Öğretim - B Şubesi
-*
-* Grup üyeleri:
-* - Bedirhan CAN
-* - Zeynep Dilara KURNAZ
-* - Ali KOÇ
-* - Muhammed Necib TAVLAŞOĞLU
-* - Burak Emre SARIKOÇ
-*/
+ * SAKARYA ÜNİVERSİTESİ 2024 GÜZ DÖNEMİ
+ * İŞLETİM SİSTEMLERİ PROJE ÖDEVİ
+ *
+ * Grup no 16 - 2. Öğretim - B Şubesi
+ *
+ * Grup üyeleri:
+ * - Bedirhan CAN
+ * - Zeynep Dilara KURNAZ
+ * - Ali KOÇ
+ * - Muhammed Necib TAVLAŞOĞLU
+ * - Burak Emre SARIKOÇ
+ */
 
-#include "prompt.h"
-#include "komut.h"
 #include "background_process.h"
+#include "komut.h"
+#include "prompt.h"
 
 const int MAX_KOMUT_UZUNLUGU = 1024; // Komutun max uzunluğu
 

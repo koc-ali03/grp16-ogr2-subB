@@ -1,25 +1,25 @@
 /*
-* SAKARYA ÜNİVERSİTESİ 2024 GÜZ DÖNEMİ
-* İŞLETİM SİSTEMLERİ PROJE ÖDEVİ
-*
-* Grup no 16 - 2. Öğretim - B Şubesi
-*
-* Grup üyeleri:
-* - Bedirhan CAN
-* - Zeynep Dilara KURNAZ
-* - Ali KOÇ
-* - Muhammed Necib TAVLAŞOĞLU
-* - Burak Emre SARIKOÇ
-*/
+ * SAKARYA ÜNİVERSİTESİ 2024 GÜZ DÖNEMİ
+ * İŞLETİM SİSTEMLERİ PROJE ÖDEVİ
+ *
+ * Grup no 16 - 2. Öğretim - B Şubesi
+ *
+ * Grup üyeleri:
+ * - Bedirhan CAN
+ * - Zeynep Dilara KURNAZ
+ * - Ali KOÇ
+ * - Muhammed Necib TAVLAŞOĞLU
+ * - Burak Emre SARIKOÇ
+ */
 
 #ifndef BACKGROUND_PROCESS_H
 #define BACKGROUND_PROCESS_H
 
+#include <signal.h>
+#include <stdlib.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h> // waitpid için gerekli
-#include <string.h>
-#include <stdlib.h>
-#include <signal.h>
 
 // Arka plan işlemlerini takip etmek için bağlı liste yapısı
 typedef struct BackgroundProcess {

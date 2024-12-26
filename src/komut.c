@@ -1,21 +1,21 @@
 /*
-* SAKARYA ÜNİVERSİTESİ 2024 GÜZ DÖNEMİ
-* İŞLETİM SİSTEMLERİ PROJE ÖDEVİ
-*
-* Grup no 16 - 2. Öğretim - B Şubesi
-*
-* Grup üyeleri:
-* - Bedirhan CAN
-* - Zeynep Dilara KURNAZ
-* - Ali KOÇ
-* - Muhammed Necib TAVLAŞOĞLU
-* - Burak Emre SARIKOÇ
-*/
+ * SAKARYA ÜNİVERSİTESİ 2024 GÜZ DÖNEMİ
+ * İŞLETİM SİSTEMLERİ PROJE ÖDEVİ
+ *
+ * Grup no 16 - 2. Öğretim - B Şubesi
+ *
+ * Grup üyeleri:
+ * - Bedirhan CAN
+ * - Zeynep Dilara KURNAZ
+ * - Ali KOÇ
+ * - Muhammed Necib TAVLAŞOĞLU
+ * - Burak Emre SARIKOÇ
+ */
 
 #include "komut.h"
-#include "prompt.h"
 #include "background_process.h"
 #include "pipeline.h"
+#include "prompt.h"
 
 void komut_calistir(char* komut, int MAX_KOMUT_UZUNLUGU) {
     char* args[MAX_KOMUT_UZUNLUGU / 2 + 1]; // Maksimum argüman miktarı
@@ -25,6 +25,7 @@ void komut_calistir(char* komut, int MAX_KOMUT_UZUNLUGU) {
 
     // `&` sembolünü kontrol eder
     char* background_indicator = strstr(komut, "&");
+
     // Komutta `&` sembolü olması durumunda arka plan prosesi olduğunu gösteren değişken ayarlanır
     if (background_indicator != NULL) {
         is_background_process = 1;
@@ -32,13 +33,12 @@ void komut_calistir(char* komut, int MAX_KOMUT_UZUNLUGU) {
     }
 
     // Komutun bir pipe içerip içermediğini kontrol et
-    if (strchr(komut, '|') != NULL)
-    {
-        pipeline_calistir(komut,MAX_KOMUT_UZUNLUGU);
+    if (strchr(komut, '|') != NULL) {
+        pipeline_calistir(komut, MAX_KOMUT_UZUNLUGU);
         return;
     }
 
-     // `<` ve `>` sembollerini kontrol eder
+    // `<` ve `>` sembollerini kontrol eder
     char* input_redirect = strstr(komut, "<");
     char* output_redirect = strstr(komut, ">");
 
@@ -108,16 +108,14 @@ void komut_calistir(char* komut, int MAX_KOMUT_UZUNLUGU) {
 
         // Komut çalıştırma
         if (execvp(args[0], args) < 0) {
-            perror("Komut calistirilamadi.");
+            perror("Komut calistirilamadi");
             exit(1);
         }
-    }
-    else {
+    } else {
         // Ebeveyn proses
         if (is_background_process) {
             add_background_process(pid);
-        }
-        else {
+        } else {
             int status;
             waitpid(pid, &status, 0);
             tcflush(STDIN_FILENO, TCIFLUSH);
